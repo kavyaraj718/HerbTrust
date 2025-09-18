@@ -1,22 +1,23 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Fake Product Identification</title>
+		<title>HerbTrust • Herb Verification</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/theme.css">
 
 	</head>
-	<body>
+	<body class="nature-particles">
 	<section class="ftco-section">
 		<div class="container-fluid px-md-5">
 			<div class="row justify-content-between">
 				<div class="col-md-8 order-md-last">
 					<div class="row">
 						<div class="col-md-6 text-center">
-							<a class="navbar-brand" href="index.html">Fake Product Identification <span>through Blockchain</span></a>
+							<a class="navbar-brand" href="index.html">HerbTrust <span>Herbal Traceability via Blockchain</span></a>
 						</div>
 						<div class="col-md-6 d-md-flex justify-content-end mb-md-0 mb-3">
 							<form action="#" class="searchform order-lg-last">
@@ -32,7 +33,7 @@
 				</div>
 			</div>
 		</div>
-		<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+		<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light" id="ftco-navbar">
 	    <div class="container-fluid">
 	    
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +53,7 @@
 	
 	<section>
         <div class="container">
-            <h2>Verify Products</h2>
+			<h2>Verify Herbs</h2>
               
 			<section>
 				<div class="container-fluid">
@@ -64,14 +65,14 @@
 			</section>
 			  
               <div class="form-group">
-				<label for="productSN">Product SN:</label>
-                <input disabled type="text" class="form-control" id="productSN" placeholder="Enter Product SN" name="productSN">
+						<label for="productSN">Herb Batch ID:</label>
+						<input disabled type="text" class="form-control" id="productSN" placeholder="Scan or enter herb batch id" name="productSN">
                 
-				<label for="consumerCode">Consumer Code</label>
-                <input type="text" class="form-control" id="consumerCode" placeholder="Enter Consumer Code" name="consumerCode">
+						<label for="consumerCode">Consumer Code</label>
+						<input type="text" class="form-control" id="consumerCode" placeholder="Enter consumer code (optional)" name="consumerCode">
               </div>
               
-              <button type="submit" class="btn btn-warning btn-register" id="register">Get Product Status</button>
+			<button type="submit" class="btn btn-warning btn-register" id="register">Get Herb Status</button>
           </div>
     </section>
 
@@ -79,11 +80,11 @@
 	<br/>
     <section>
         <div class="container">
-            <h2>Is the product sold to cunsumer is fake or not?</h2>
-            <table class="table">
+			<h2>Herb Authenticity and Traceability</h2>
+		<table class="table">
                 <thead>
                     <tr>
-                        <th>Product Verification Result</th>
+					<th>Herb Verification Result</th>
                     </tr>
                 </thead>
                 <tbody id="logdata">
@@ -91,6 +92,47 @@
                 </tbody>
             </table>
             <center><p>Your address is <b id="add"></b></p></center>
+			<div class="card-glass p-4 mt-3">
+				<h5 class="mb-3">Herb Details</h5>
+				<div class="row">
+					<div class="col-md-6 mb-2">
+						<span class="text-muted-soft">Herb Name:</span>
+						<span id="herbName"></span>
+					</div>
+					<div class="col-md-6 mb-2">
+						<span class="text-muted-soft">Herb Species:</span>
+						<span id="herbSpecies"></span>
+					</div>
+					<div class="col-md-6 mb-2">
+						<span class="text-muted-soft">Unit Price:</span>
+						<span id="herbUnitPrice"></span>
+					</div>
+					<div class="col-md-6 mb-2">
+						<span class="text-muted-soft">Producer ID:</span>
+						<span id="producerId"></span>
+					</div>
+				</div>
+				<div class="divider"></div>
+				<h6 class="mb-2">Additional Herb Metadata (display-only)</h6>
+				<div class="row">
+					<div class="col-md-6 mb-2">
+						<span class="text-muted-soft">Harvest Date:</span>
+						<span id="herbHarvestDate"></span>
+					</div>
+					<div class="col-md-6 mb-2">
+						<span class="text-muted-soft">Origin Location:</span>
+						<span id="herbOriginLocation"></span>
+					</div>
+					<div class="col-md-6 mb-2">
+						<span class="text-muted-soft">Farm/Collector ID:</span>
+						<span id="herbFarmId"></span>
+					</div>
+					<div class="col-md-6 mb-2">
+						<span class="text-muted-soft">Certification:</span>
+						<span id="herbCertification"></span>
+					</div>
+				</div>
+			</div>
         </div>
     </section>
 

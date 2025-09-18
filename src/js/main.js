@@ -17,24 +17,18 @@
 	  }
 	);
   
-	// Connect Wallet Button Functionality
+	// Connect Wallet Button Functionality (safe on pages without the button)
 	async function connectWallet() {
 	  const connectButton = document.getElementById("connectWallet");
 	  const walletAddressDisplay = document.getElementById("walletAddress");
-  
+	  if (!connectButton) return;
+
 	  if (typeof window.ethereum !== "undefined") {
 		try {
-		  // Request account access
-		  const accounts = await window.ethereum.request({
-			method: "eth_requestAccounts",
-		  });
+		  const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
 		  const walletAddress = accounts[0];
-  
-		  // Display connected wallet address
-		  walletAddressDisplay.innerText = `Connected: ${walletAddress}`;
+		  if (walletAddressDisplay) walletAddressDisplay.innerText = `Connected: ${walletAddress}`;
 		  console.log("Wallet connected:", walletAddress);
-  
-		  // Disable the button after connection
 		  connectButton.disabled = true;
 		  connectButton.innerText = "Wallet Connected";
 		} catch (error) {
@@ -44,10 +38,29 @@
 		alert("MetaMask is not installed. Please install it to use this feature.");
 	  }
 	}
-  
-	// Add event listener to the button
-	document
-	  .getElementById("connectWallet")
-	  .addEventListener("click", connectWallet);
+
+	const connectBtnEl = document.getElementById("connectWallet");
+	if (connectBtnEl) {
+	  connectBtnEl.addEventListener("click", connectWallet);
+	}
+
+	// Navbar dark-on-scroll toggle
+	function handleNavbarOnScroll() {
+	  const navbar = document.getElementById("ftco-navbar");
+	  if (!navbar) return;
+	  if (window.scrollY > 10) {
+		navbar.classList.add("scrolled");
+	  } else {
+		navbar.classList.remove("scrolled");
+	  }
+	}
+	window.addEventListener("scroll", handleNavbarOnScroll, { passive: true });
+	// run once on load
+	handleNavbarOnScroll();
+
+	// Page load fade-in
+	document.addEventListener("DOMContentLoaded", function() {
+	  document.body.classList.add("page-animate");
+	});
   })(jQuery);
   

@@ -62,6 +62,9 @@ App = {
                 var productNames=[];
                 var productBrands=[];
                 var productPrices=[];
+                // Optional herb metadata arrays (if your contract later returns them)
+                var harvestDates=[];
+                var originLocations=[];
                 var productStatus=[];
 
                 // console.log(result);
@@ -104,6 +107,9 @@ App = {
                     tr+="<td>"+productSNs[i]+"</td>";
                     tr+="<td>"+productNames[i]+"</td>";
                     tr+="<td>"+productBrands[i]+"</td>";
+                    // display-only placeholders for metadata
+                    tr+="<td>"+(harvestDates[i] || '—')+"</td>";
+                    tr+="<td>"+(originLocations[i] || '—')+"</td>";
                     tr+="<td>"+productPrices[i]+"</td>";
                     tr+="<td>"+productStatus[i]+"</td>";
                     tr+="</tr>";

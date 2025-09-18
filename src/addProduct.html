@@ -1,23 +1,24 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Fake Product Identification</title>
+	<title>HerbTrust • Add Herb</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/theme.css">
 	<link rel="stylesheet" href="css/qr_code_box.css">
 
 	</head>
-	<body>
+	<body class="nature-particles">
 	<section class="ftco-section">
 		<div class="container-fluid px-md-5">
 			<div class="row justify-content-between">
 				<div class="col-md-8 order-md-last">
 					<div class="row">
 						<div class="col-md-6 text-center">
-							<a class="navbar-brand" href="index.html">Fake Product Identification <span>through Blockchain</span></a>
+					<a class="navbar-brand" href="index.html">HerbTrust <span>Herbal Traceability via Blockchain</span></a>
 						</div>
 						<div class="col-md-6 d-md-flex justify-content-end mb-md-0 mb-3">
 							<form action="#" class="searchform order-lg-last">
@@ -33,7 +34,7 @@
 				</div>
 			</div>
 		</div>
-		<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+		<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light" id="ftco-navbar">
 	    <div class="container-fluid">
 	    
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +55,7 @@
 	</section>
     <section>
         <div class="container">
-            <h2>Add Product</h2>
+		<h2>Add Herb Batch</h2>
 
 
 
@@ -62,13 +63,13 @@
 				<table width="100%">
 					<tr width="100%">
 						<td width="15%" align="center">
-						<label for="manufacturerID">Manufacturer ID</label>
+					<label for="manufacturerID">Producer ID</label>
 						</td>
 						<td width = "30%">
 						<input  class="form-control" id="manufacturerID" name="Manufacturer ID" type="text" />
 						</td>
 						<td width="15" align="center">
-						<label for="name">Product Name</label>
+					<label for="name">Herb Name</label>
 						</td>
 						<td width = "30%" >
 						<input class="form-control" id="productName" name="productName" type="text" />
@@ -77,13 +78,13 @@
 
 					<tr width="100%">
 						<td width="15%" align="center">
-						<label for="productSN">Product SN:</label>
+					<label for="productSN">Herb Batch Serial Number</label>
 						</td>
 						<td width = "30%">
 						<input  class="form-control" id="productSN" name="productSN" type="text" />
 						</td>
 						<td width="15" align="center">
-						<label for="name">Product Brand</label>
+					<label for="name">Herb Species</label>
 						</td>
 						<td width = "30%" >
 						<input class="form-control" id="productBrand" name="productBrand" type="text" />
@@ -93,20 +94,47 @@
 
 					<tr width="100%">
 						<td width="15%" align="center">
-						<label for="productPrice">Product Price</label>
+					<label for="productPrice">Unit Price</label>
 						</td>
 						<td width = "30%">
 						<input  class="form-control" id="productPrice" name="productPrice" type="text" />
 						</td>
 					</tr>
 
-						
-					</tr>
+				<tr width="100%">
+					<td width="15%" align="center">
+					<label for="harvestDate">Harvest Date</label>
+					</td>
+					<td width = "30%">
+					<input  class="form-control" id="harvestDate" name="harvestDate" type="date" />
+					</td>
+					<td width="15" align="center">
+					<label for="originLocation">Origin Location</label>
+					</td>
+					<td width = "30%" >
+					<input class="form-control" id="originLocation" name="originLocation" type="text" placeholder="Village, District, Country" />
+					</td>
+				</tr>
+
+				<tr width="100%">
+					<td width="15%" align="center">
+					<label for="farmId">Farm/Collector ID</label>
+					</td>
+					<td width = "30%">
+					<input  class="form-control" id="farmId" name="farmId" type="text" />
+					</td>
+					<td width="15" align="center">
+					<label for="certification">Certification</label>
+					</td>
+					<td width = "30%" >
+					<input class="form-control" id="certification" name="certification" type="text" placeholder="e.g., Organic, FairWild" />
+					</td>
+				</tr>
 				</table>
 			  </div>
 			  <div class="clear" >&nbsp;</div>
 			  <div align="center">
-				<button type="submit" class="btn btn-warning btn-register" id="register" onclick="fetchQR()">Add the Product</button>
+			<button type="submit" class="btn btn-warning btn-register" id="register" onclick="fetchQR()">Add the Herb Batch</button>
 			  </div>  
 			  <br></br>
           </div>

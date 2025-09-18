@@ -34,6 +34,15 @@ contract product {
     mapping(bytes32=>bytes32[]) public productsWithConsumer;
     mapping(bytes32=>bytes32[]) public sellersWithManufacturer;
 
+    // HERB METADATA SECTION
+    struct herbMetadata {
+        bytes32 harvestDate;       // e.g., YYYY-MM-DD
+        bytes32 originLocation;    // e.g., Village, District, Country (truncated to 32 bytes)
+        bytes32 farmId;            // farm/collector id
+        bytes32 certification;     // e.g., Organic, FairWild
+    }
+    mapping(bytes32=>herbMetadata) public productHerbMetadata; // key: productSN
+
 
     //SELLER SECTION
 
@@ -77,6 +86,17 @@ contract product {
         productMap[_productSN] = productCount;
         productCount++;
         productsManufactured[_productSN] = _manufactuerID;
+    }
+
+    // Set herb metadata for a given product serial number
+    function setHerbMetadata(bytes32 _productSN, bytes32 _harvestDate, bytes32 _originLocation, bytes32 _farmId, bytes32 _certification) public {
+        productHerbMetadata[_productSN] = herbMetadata(_harvestDate, _originLocation, _farmId, _certification);
+    }
+
+    // Get herb metadata for a given product serial number
+    function getHerbMetadata(bytes32 _productSN) public view returns(bytes32, bytes32, bytes32, bytes32) {
+        herbMetadata memory meta = productHerbMetadata[_productSN];
+        return (meta.harvestDate, meta.originLocation, meta.farmId, meta.certification);
     }
 
 

@@ -61,15 +61,59 @@ App = {
 
                 var tr="<tr>";
                 if(result){
-                    tr+="<td>"+ "Genuine Product."+"</td>";
+                    tr+="<td>"+ "Genuine Herb."+"</td>";
                 }else{
-                    tr+="<td>"+ "Fake Product."+"</td>";
+                    tr+="<td>"+ "Not Genuine."+"</td>";
                 }
                 tr+="</tr>";
                 t+=tr;
 
                 document.getElementById('logdata').innerHTML = t;
                 document.getElementById('add').innerHTML=account;
+                // Populate herb details if genuine using viewProductItems map lookup
+                if(result){
+                    try {
+                        var snBytes32 = web3.fromAscii(productSN);
+                        var idx = null;
+                        // Fallback: iterate local view via contract call to locate the product by SN
+                        var contractRef;
+                        App.contracts.product.deployed().then(function(instance){
+                            contractRef = instance;
+                            return contractRef.viewProductItems.call();
+                        }).then(function(all){
+                            var ids = all[0];
+                            var sns = all[1];
+                            var names = all[2];
+                            var brands = all[3];
+                            var prices = all[4];
+                            var status = all[5];
+                            for(var i=0;i<sns.length;i++){
+                                if(web3.toAscii(sns[i]).replace(/\u0000/g,'') === productSN){ idx = i; break; }
+                            }
+                            var setText = function(id, value){ var el = document.getElementById(id); if(el){ el.textContent = value; } };
+                            if(idx !== null){
+                                setText('herbName', web3.toAscii(names[idx]).replace(/\u0000/g,''));
+                                setText('herbSpecies', web3.toAscii(brands[idx]).replace(/\u0000/g,''));
+                                setText('herbUnitPrice', prices[idx]);
+                                // Fetch producer/manufacturer ID from public mapping productsManufactured
+                                return contractRef.productsManufactured.call(snBytes32).then(function(pid){
+                                    setText('producerId', web3.toAscii(pid).replace(/\u0000/g,''));
+                                }).catch(function(){ setText('producerId', '—'); });
+                            }
+                            // Read on-chain herb metadata if set
+                            return contractRef.getHerbMetadata.call(snBytes32).then(function(meta){
+                                var hd = web3.toAscii(meta[0]).replace(/\u0000/g,'');
+                                var ol = web3.toAscii(meta[1]).replace(/\u0000/g,'');
+                                var fid = web3.toAscii(meta[2]).replace(/\u0000/g,'');
+                                var cert = web3.toAscii(meta[3]).replace(/\u0000/g,'');
+                                setText('herbHarvestDate', hd || '—');
+                                setText('herbOriginLocation', ol || '—');
+                                setText('herbFarmId', fid || '—');
+                                setText('herbCertification', cert || '—');
+                            });
+                        }).catch(function(e){ console.log(e); });
+                    } catch(e){ console.log(e); }
+                }
            }).catch(function(err){
                console.log(err.message);
            })
