@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>HerbTrust • Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme.css">
+  </head>
+  <body class="nature-particles" style="padding-top: 70px;">
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light fixed-top" id="ftco-navbar">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html"><img src="img/logo.svg" onerror="this.onerror=null;this.src='img/logo.png'" alt="HerbTrust" class="brand-logo"/></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="fa fa-bars"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+          <ul class="navbar-nav m-auto">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+          </ul>
+          <div class="d-flex" id="auth-nav"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section class="section">
+      <div class="container max-w-1200">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card-glass p-4">
+              <h3 class="section-title">Login</h3>
+              <p class="text-muted-soft">Choose your role and continue. This demo uses client-side auth.</p>
+              <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" class="form-control">
+                  <option value="Farmer">Farmer</option>
+                  <option value="Distributor">Distributor</option>
+                  <option value="Consumer">Consumer</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="address">Wallet/Identifier</label>
+                <input id="address" class="form-control" placeholder="0x... or email"/>
+              </div>
+              <button id="loginSubmit" class="btn btn-primary">Continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+      (function(){
+        function byId(id){ return document.getElementById(id); }
+        document.addEventListener('DOMContentLoaded', function(){
+          var btn = byId('loginSubmit');
+          if(btn){
+            btn.addEventListener('click', function(){
+              var role = byId('role').value;
+              var address = byId('address').value || 'guest';
+              if(window.HTAuth){
+                HTAuth.login(role, address);
+                HTAuth.redirectToRoleHome(role);
+              }
+            });
+          }
+        });
+      })();
+    </script>
+  </body>
+  </html>
+
+
+
