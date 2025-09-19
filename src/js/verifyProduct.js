@@ -136,10 +136,10 @@ App = {
                               return { lat: parseFloat(m[1]), lng: parseFloat(m[2]) };
                             };
                             var hCoord = parseLatLng(ol);
-                            function render(points){ if(window.renderMap){ window.renderMap('mapContainer', points); } }
+                            function renderFarmer(points){ if(window.renderMap){ window.renderMap('mapContainerFarmer', points); } }
                             if(hCoord){
                               points.push({ lat:hCoord.lat, lng:hCoord.lng, icon:'🌱', title:'Origin Location', subtitle: ol });
-                              render(points);
+                              renderFarmer(points);
                             } else if(ol && ol.trim()){
                               try {
                                 var q = encodeURIComponent(ol.trim());
@@ -156,10 +156,10 @@ App = {
                                     }
                                   })
                                   .catch(function(){ /* ignore geocode errors */ })
-                                  .finally(function(){ render(points); });
-                              } catch(e){ render(points); }
+                                  .finally(function(){ renderFarmer(points); });
+                              } catch(e){ renderFarmer(points); }
                             } else {
-                              render(points);
+                              renderFarmer(points);
                             }
                             // Fetch distributor details: derive seller code from productsForSale mapping; then match in sellers list
                             try {
@@ -187,7 +187,33 @@ App = {
                                     setText('distCode', sellerCode);
                                     setText('distNumber', snums[foundIndex]);
                                     setText('distManager', web3.toAscii(smanagers[foundIndex]).replace(/\u0000/g,''));
-                                    setText('distAddress', web3.toAscii(saddress[foundIndex]).replace(/\u0000/g,''));
+                                    var dAddr = web3.toAscii(saddress[foundIndex]).replace(/\u0000/g,'');
+                                    setText('distAddress', dAddr);
+                                    // Add distributor location to distributor map
+                                    var dCoord = parseLatLng(dAddr);
+                                    var dPoints = [];
+                                    if(dCoord){
+                                      dPoints.push({ lat:dCoord.lat, lng:dCoord.lng, icon:'🏪', title:'Distributor', subtitle: dAddr });
+                                      if(window.renderMap){ window.renderMap('mapContainerDistributor', dPoints); }
+                                    } else if(dAddr && dAddr.trim()){
+                                      try {
+                                        var dq = encodeURIComponent(dAddr.trim());
+                                        fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + dq, { headers: { 'Accept': 'application/json' } })
+                                          .then(function(r){ return r.json(); })
+                                          .then(function(rows){
+                                            if(Array.isArray(rows) && rows.length){
+                                              var rr = rows[0];
+                                              var lat = parseFloat(rr.lat);
+                                              var lng = parseFloat(rr.lon);
+                                              if(!isNaN(lat) && !isNaN(lng)){
+                                                dPoints.push({ lat:lat, lng:lng, icon:'🏪', title:'Distributor', subtitle: dAddr });
+                                              }
+                                            }
+                                          })
+                                          .catch(function(){ /* ignore */ })
+                                          .finally(function(){ if(window.renderMap){ window.renderMap('mapContainerDistributor', dPoints); } });
+                                      } catch(e) { if(window.renderMap){ window.renderMap('mapContainerDistributor', dPoints); } }
+                                    }
                                   }
                                 });
                               });
