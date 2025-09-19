@@ -62,16 +62,28 @@ App = {
                 var t= "";
 
                 var tr="<tr>";
-                if(result){
-                    tr+="<td>"+ "Genuine Herb."+"</td>";
-                }else{
-                    tr+="<td>"+ "Not Genuine."+"</td>";
-                }
+                var isGenuine = !!result;
+                if(isGenuine){ tr+="<td>Genuine Herb.</td>"; } else { tr+="<td>Not Genuine.</td>"; }
                 tr+="</tr>";
                 t+=tr;
 
                 document.getElementById('logdata').innerHTML = t;
                 document.getElementById('add').innerHTML=account;
+                // Toggle details, distributor and map visibility based on genuineness
+                try {
+                  var detailsCard = document.getElementById('herbDetailsCard');
+                  var mapCard = document.getElementById('mapCard');
+                  var distCard = document.getElementById('distributorCard');
+                  if(!isGenuine){
+                    if(detailsCard) detailsCard.style.display = 'none';
+                    if(mapCard) mapCard.style.display = 'none';
+                    if(distCard) distCard.style.display = 'none';
+                  } else {
+                    if(detailsCard) detailsCard.style.display = '';
+                    if(mapCard) mapCard.style.display = '';
+                    if(distCard) distCard.style.display = '';
+                  }
+                } catch(e) {}
                 // Populate herb details ALWAYS (regardless of verification status)
                 try {
                     var snBytes32 = web3.fromAscii(productSN);
@@ -149,6 +161,37 @@ App = {
                             } else {
                               render(points);
                             }
+                            // Fetch distributor details: derive seller code from productsForSale mapping; then match in sellers list
+                            try {
+                              var sellerCodeBytes;
+                              return contractRef.productsForSale.call(snBytes32).then(function(sc){
+                                sellerCodeBytes = sc;
+                                var sellerCode = web3.toAscii(sc).replace(/\u0000/g,'');
+                                if(!sellerCode){ throw new Error('No distributor assigned'); }
+                                // get all sellers to find matching code
+                                return contractRef.viewSellers.call().then(function(sres){
+                                  var snames = sres[1];
+                                  var sbrands = sres[2];
+                                  var scodes = sres[3];
+                                  var snums = sres[4];
+                                  var smanagers = sres[5];
+                                  var saddress = sres[6];
+                                  var foundIndex = -1;
+                                  for(var i=0;i<scodes.length;i++){
+                                    if(web3.toAscii(scodes[i]).replace(/\u0000/g,'') === sellerCode){ foundIndex = i; break; }
+                                  }
+                                  if(foundIndex >= 0){
+                                    var setText = function(id, value){ var el = document.getElementById(id); if(el){ el.textContent = value; } };
+                                    setText('distName', web3.toAscii(snames[foundIndex]).replace(/\u0000/g,''));
+                                    setText('distBrand', web3.toAscii(sbrands[foundIndex]).replace(/\u0000/g,''));
+                                    setText('distCode', sellerCode);
+                                    setText('distNumber', snums[foundIndex]);
+                                    setText('distManager', web3.toAscii(smanagers[foundIndex]).replace(/\u0000/g,''));
+                                    setText('distAddress', web3.toAscii(saddress[foundIndex]).replace(/\u0000/g,''));
+                                  }
+                                });
+                              });
+                            } catch(e) { /* ignore */ }
                         });
                     }).catch(function(e){ console.log(e); });
                 } catch(e){ console.log(e); }
