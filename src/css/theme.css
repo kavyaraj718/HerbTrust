@@ -70,6 +70,12 @@ body.page-animate { animation: pageFadeIn .5s ease-out both; }
 }
 .navbar-brand span { color: var(--color-primary); }
 
+/* Brand logo image */
+.brand-logo { height: 42px; width: auto; vertical-align: middle; margin-right: 8px; border-radius: 6px; }
+.brand-logo[src$="logo.png"],
+.brand-logo[src$="logo.jpg"],
+.brand-logo[src$="logo.jpeg"] { background: #e8efe8; display: inline-block; }
+
 /* Buttons */
 .btn-primary, #connectWallet {
   background: linear-gradient(135deg, var(--color-primary), var(--color-primary-600));
