@@ -135,8 +135,31 @@ App = {
                               return { lat: parseFloat(m[1]), lng: parseFloat(m[2]) };
                             };
                             var hCoord = parseLatLng(ol);
-                            if(hCoord){ points.push({ lat:hCoord.lat, lng:hCoord.lng, icon:'🌱', title:'Harvest', subtitle: ol }); }
-                            if(window.renderMap){ window.renderMap('mapContainer', points); }
+                            function render(points){ if(window.renderMap){ window.renderMap('mapContainer', points); } }
+                            if(hCoord){
+                              points.push({ lat:hCoord.lat, lng:hCoord.lng, icon:'🌱', title:'Origin Location', subtitle: ol });
+                              render(points);
+                            } else if(ol && ol.trim()){
+                              try {
+                                var q = encodeURIComponent(ol.trim());
+                                fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + q, { headers: { 'Accept': 'application/json' } })
+                                  .then(function(r){ return r.json(); })
+                                  .then(function(rows){
+                                    if(Array.isArray(rows) && rows.length){
+                                      var r0 = rows[0];
+                                      var lat = parseFloat(r0.lat);
+                                      var lng = parseFloat(r0.lon);
+                                      if(!isNaN(lat) && !isNaN(lng)){
+                                        points.push({ lat:lat, lng:lng, icon:'🌱', title:'Origin Location', subtitle: ol });
+                                      }
+                                    }
+                                  })
+                                  .catch(function(){ /* ignore geocode errors */ })
+                                  .finally(function(){ render(points); });
+                              } catch(e){ render(points); }
+                            } else {
+                              render(points);
+                            }
                         });
                     }).catch(function(e){ console.log(e); });
                 } catch(e){ console.log(e); }
