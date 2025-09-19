@@ -25,6 +25,12 @@ html, body {
   to { opacity: 1; transform: none; }
 }
 body.page-animate { animation: pageFadeIn .5s ease-out both; }
+/* Page leave animation */
+@keyframes pageFadeOut {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateY(6px); }
+}
+body.page-transition-out { animation: pageFadeOut .25s ease-in both; pointer-events: none; }
 
 /* Animated leaf particles */
 .nature-particles::before,

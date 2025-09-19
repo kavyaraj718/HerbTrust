@@ -113,18 +113,7 @@ App = {
                             setText('herbOriginLocation', ol || '—');
                             setText('herbFarmId', fid || '—');
                             setText('herbCertification', cert || '—');
-                            // Prepare lifecycle timeline data (partial, based on available on-chain fields)
-                            var stages = [];
-                            if(hd || ol){
-                              stages.push({ key:'harvest', title:'🌱 Harvest', icon:'🌱', timestamp: hd, locationText: ol, actor: fid ? ('Farmer ' + fid) : '', batchId: productSN });
-                            }
-                            // Placeholder stages until dedicated contract events/fields exist
-                            stages.push({ key:'processing', title:'🏭 Processing', icon:'🏭', timestamp:'—', locationText:'—', actor:'Processor', batchId: productSN });
-                            stages.push({ key:'lab', title:'🧪 Lab Testing', icon:'🧪', timestamp:'—', locationText:'—', actor:'Lab', batchId: productSN, extra: cert ? ('Certification: ' + cert) : '' });
-                            stages.push({ key:'formulation', title:'⚗️ Formulation', icon:'⚗️', timestamp:'—', locationText:'—', actor:'Formulator', batchId: productSN });
-                            stages.push({ key:'retail', title:'🏪 Retail', icon:'🏪', timestamp:'—', locationText:'—', actor:'Retailer', batchId: productSN });
-
-                            if(window.renderTimeline){ window.renderTimeline('timelineContainer', stages); }
+                            // Timeline removed per requirements
 
                             // Attempt to geocode basic locations via a naive parser (expects "lat,lng" if provided)
                             var points = [];

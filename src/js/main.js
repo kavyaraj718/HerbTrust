@@ -62,5 +62,26 @@
 	document.addEventListener("DOMContentLoaded", function() {
 	  document.body.classList.add("page-animate");
 	});
+
+	// Page transition: animate out on navigation clicks
+	function enableTransitions(){
+	  try {
+		var anchors = document.querySelectorAll('a.nav-link, a.btn, .navbar-brand');
+		Array.prototype.forEach.call(anchors, function(a){
+		  var href = a.getAttribute('href');
+		  if(!href || href.indexOf('#') === 0 || href.startsWith('javascript:')) return;
+		  a.addEventListener('click', function(ev){
+			if(ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || a.target === '_blank') return;
+			ev.preventDefault();
+			var url = a.getAttribute('href');
+			document.body.classList.add('page-transition-out');
+			setTimeout(function(){ window.location.href = url; }, 200);
+		  });
+		});
+	  } catch(e){}
+	}
+
+	if(document.readyState === 'complete' || document.readyState === 'interactive') setTimeout(enableTransitions, 0);
+	else document.addEventListener('DOMContentLoaded', enableTransitions);
   })(jQuery);
   
